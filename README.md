@@ -1,1 +1,1 @@
-# WeightedPBFT
+# PBFT
