@@ -41,8 +41,8 @@ class Block {
       "----",
       "genesis-hash",
       [],
-      "P4@P@53R",
-      "SIGN",
+      "Genesis",
+      "Genesis-SIGN",
       0
     );
   }

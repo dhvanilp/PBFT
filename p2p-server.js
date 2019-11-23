@@ -10,7 +10,14 @@ const P2P_PORT = process.env.P2P_PORT || 5001;
 
 // the neighbouring nodes socket addresses will be passed in command line
 // this statemet splits them into an array
-const peers = process.env.PEERS ? process.env.PEERS.split(",") : [];
+ports = [5000, 5001, 5002, 5003, 5004, 5005, 5006, 5007];
+
+let peers = [];
+for (i=0; i<process.env.PEERS; i++){
+  peers.push('ws://localhost:'+ports[i]);
+}
+
+// const peers = process.env.PEERS ? process.env.PEERS.split(",") : [];
 
 // message types used to avoid typing messages
 // also used in swtich statement in message handlers
@@ -48,17 +55,17 @@ class P2pserver {
   listen() {
     const server = new WebSocket.Server({ port: P2P_PORT });
     server.on("connection", socket => {
-      console.log("new connection");
+      //console.log("new connection");
       this.connectSocket(socket);
     });
     this.connectToPeers();
-    console.log(`Listening for peer to peer connection on port : ${P2P_PORT}`);
+    //console.log(`Listening for peer to peer connection on port : ${P2P_PORT}`);
   }
 
   // connects to a given socket and registers the message handler on it
   connectSocket(socket) {
     this.sockets.push(socket);
-    console.log("Socket connected");
+    //console.log("Socket connected");
     this.messageHandler(socket);
   }
 
@@ -140,7 +147,7 @@ class P2pserver {
 
   // broacasts round change
   broadcastRoundChange(message) {
-    console.log(":::::::::::::",message)
+    // //console.log(":::::::::::::",message)
     // if(message!=undefined){
       this.sockets.forEach(socket => {
         this.sendRoundChange(socket, message);
@@ -164,7 +171,7 @@ class P2pserver {
     socket.on("message", message => {
       const data = JSON.parse(message);
 
-      console.log("RECEIVED", data.type);
+      //console.log("RECEIVED", data.type);
 
       // select a perticular message handler
       switch (data.type) {
@@ -183,20 +190,21 @@ class P2pserver {
 
             // check if limit reached
             if (thresholdReached) {
-              console.log("THRESHOLD REACHED");
+              //console.log("THRESHOLD REACHED");
               // check the current node is the proposer
               if (this.blockchain.getProposer() == this.wallet.getPublicKey()) {
+                
                 console.log("PROPOSING BLOCK");
                 // if the node is the proposer, create a block and broadcast it
                 let block = this.blockchain.createBlock(
                   this.transactionPool.transactions,
                   this.wallet
                 );
-                console.log("CREATED BLOCK", block);
+                //console.log("CREATED BLOCK", block);
                 this.broadcastPrePrepare(block);
               }
             } else {
-              console.log("Transaction Added");
+              //console.log("Transaction Added");
             }
           }
           break;

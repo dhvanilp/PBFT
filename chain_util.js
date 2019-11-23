@@ -31,8 +31,7 @@ class ChainUtil {
   // and matching it with the hash
   static verifySignature(publicKey, signature, dataHash) {
     // console.log("hey::", signature)
-    // return eddsa.keyFromPublic(publicKey).verify(dataHash, signature);
-    return true;
+    return eddsa.keyFromPublic(publicKey).verify(dataHash, signature);
   }
 }
 

@@ -43,7 +43,7 @@ class MessagePool {
 
   // checks if the message is valid or not
   isValidMessage(message) {
-    console.log("in valid here",message.signature);
+    //console.log("in valid here");
     return ChainUtil.verifySignature(
       message.publicKey,
       message.signature,

@@ -43,8 +43,14 @@ app.get("/transactions", (req, res) => {
 
 // sends the entire chain to the user
 app.get("/blocks", (req, res) => {
+  res.json(blockchain.chain.length);
+});
+
+app.get("/blockData", (req, res) => {
   res.json(blockchain.chain);
 });
+
+
 
 // creates transactions for the sent data
 app.post("/transact", (req, res) => {
@@ -55,8 +61,9 @@ app.post("/transact", (req, res) => {
 });
 
 // starts the app server
-app.listen(HTTP_PORT, () => {
+app.listen(HTTP_PORT ,'0.0.0.0',() => {
   console.log(`Listening on port ${HTTP_PORT}`);
+  console.log(p2pserver.wallet.getPublicKey());
 });
 
 // starts the p2p server
